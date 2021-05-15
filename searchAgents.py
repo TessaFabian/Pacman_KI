@@ -277,6 +277,16 @@ class CornersProblem(search.SearchProblem):
         """
         Stores the walls, pacman's starting position and corners.
         """
+
+        """
+        Relevant attributes:
+        - walls
+        - startingPosition
+        - corners
+        - top
+        - right
+        """
+
         self.walls = startingGameState.getWalls()
         self.startingPosition = startingGameState.getPacmanPosition()
         top, right = self.walls.height-2, self.walls.width-2
@@ -288,7 +298,8 @@ class CornersProblem(search.SearchProblem):
         # Please add any code here which you would like to use
         # in initializing the problem
         "*** YOUR CODE HERE ***"
-        # at the moment (getStartState, isGoalState) nothing to add
+        self.top = top
+        self.right = right
 
     def getStartState(self):
         """
@@ -296,7 +307,7 @@ class CornersProblem(search.SearchProblem):
         space)
         """
         "*** YOUR CODE HERE ***"
-        # At the beginning, no Corners are visited by Pacman
+        # At the beginning, no corners are visited by Pacman
         visitedCorners = (False, False, False, False)
         # startingPosition: (x,y)
         startState = (self.startingPosition, visitedCorners)
@@ -338,6 +349,34 @@ class CornersProblem(search.SearchProblem):
             #   hitsWall = self.walls[nextx][nexty]
 
             "*** YOUR CODE HERE ***"
+            currentPosition = state[0]
+            currentCornerState = state[1]
+            newCornerState = []
+            x,y = currentPosition
+            dx, dy = Actions.directionToVector(action)
+            nextx = int(x+dx)
+            nexty = int(y+dy)
+            nextPosition = (nextx, nexty)
+            hitsWall = self.walls[nextx][nexty]
+
+            # Why cornerState? In a successor, Pacman could visit a corner
+            # successor = ((newPosition, cornerState), action, 1),
+            # An action is illegal, if it causes Pacman to crash into a wall
+            if not hitsWall:
+                if nextPosition in self.corners:
+                    if nextPosition == (self.right,1):
+                        newCornerState = [True, currentCornerState[1], currentCornerState[2], currentCornerState[3]]
+                    elif nextPosition == (self.right, self.top):
+                        newCornerState = [currentCornerState[1], True, currentCornerState[2], currentCornerState[3]]
+                    elif nextPosition == (1, self.top):
+                        newCornerState = [currentCornerState[1], currentCornerState[2], True, currentCornerState[3]]
+                    elif nextPosition == (1,1):
+                        newCornerState = [currentCornerState[1], currentCornerState[2], currentCornerState[3], True]
+                    successor = ((nextPosition, newCornerState), action, 1)
+                # If the next position is not a corner, the state of the corners doesn't change
+                else:
+                    successor = ((nextPosition, currentCornerState), action, 1)
+            successors.append(successor)
 
         self._expanded += 1 # DO NOT CHANGE
         return successors
