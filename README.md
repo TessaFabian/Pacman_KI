@@ -7,10 +7,10 @@ Praxisprojekt für die Lehrveranstaltung "Introduction to Artifical Intelligence
 2. Breitensuche
 3. Uninformed Cost Search
 4. A*-Suche
+5. Finding all the corners
 
-## To Do Stand 11.05.21
+## To Do Stand 15.05.21
 --> Branch teil2 <br>
-5. Finding all the corners <br>
 6. Corners problem: Heuristics <br>
 7. Eating all the dots <br>
 
