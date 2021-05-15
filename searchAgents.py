@@ -331,7 +331,6 @@ class CornersProblem(search.SearchProblem):
     def getSuccessors(self, state):
         """
         Returns successor states, the actions they require, and a cost of 1.
-
          As noted in search.py:
             For a given state, this should return a list of triples, (successor,
             action, stepCost), where 'successor' is a successor to the current
@@ -350,12 +349,16 @@ class CornersProblem(search.SearchProblem):
 
             "*** YOUR CODE HERE ***"
             currentPosition = state[0]
+            x, y = currentPosition
+
             currentCornerState = state[1]
-            newCornerState = []
-            x,y = currentPosition
+            newCornerState = ()
+
             dx, dy = Actions.directionToVector(action)
-            nextx = int(x+dx)
-            nexty = int(y+dy)
+
+            nextx = int(x + dx)
+            nexty = int(y + dy)
+
             nextPosition = (nextx, nexty)
             hitsWall = self.walls[nextx][nexty]
 
@@ -364,22 +367,24 @@ class CornersProblem(search.SearchProblem):
             # An action is illegal, if it causes Pacman to crash into a wall
             if not hitsWall:
                 if nextPosition in self.corners:
-                    if nextPosition == (self.right,1):
+                    if nextPosition == (self.right, 1):
                         newCornerState = [True, currentCornerState[1], currentCornerState[2], currentCornerState[3]]
                     elif nextPosition == (self.right, self.top):
-                        newCornerState = [currentCornerState[1], True, currentCornerState[2], currentCornerState[3]]
+                        newCornerState = [currentCornerState[0], True, currentCornerState[2], currentCornerState[3]]
                     elif nextPosition == (1, self.top):
-                        newCornerState = [currentCornerState[1], currentCornerState[2], True, currentCornerState[3]]
-                    elif nextPosition == (1,1):
-                        newCornerState = [currentCornerState[1], currentCornerState[2], currentCornerState[3], True]
+                        newCornerState = [currentCornerState[0], currentCornerState[1], True, currentCornerState[3]]
+                    elif nextPosition == (1, 1):
+                        newCornerState = [currentCornerState[0], currentCornerState[1], currentCornerState[2], True]
                     successor = ((nextPosition, newCornerState), action, 1)
                 # If the next position is not a corner, the state of the corners doesn't change
                 else:
                     successor = ((nextPosition, currentCornerState), action, 1)
-            successors.append(successor)
+                successors.append(successor)
 
-        self._expanded += 1 # DO NOT CHANGE
+        self._expanded += 1  # DO NOT CHANGE
         return successors
+
+
 
     def getCostOfActions(self, actions):
         """
