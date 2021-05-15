@@ -362,19 +362,19 @@ class CornersProblem(search.SearchProblem):
             nextPosition = (nextx, nexty)
             hitsWall = self.walls[nextx][nexty]
 
-            # Why cornerState? In a successor, Pacman could visit a corner
+            # Why cornerState? In a successor, Pacman could visit a corner. So in this case, we have to update it
             # successor = ((newPosition, cornerState), action, 1),
             # An action is illegal, if it causes Pacman to crash into a wall
             if not hitsWall:
                 if nextPosition in self.corners:
                     if nextPosition == (self.right, 1):
-                        newCornerState = [True, currentCornerState[1], currentCornerState[2], currentCornerState[3]]
-                    elif nextPosition == (self.right, self.top):
-                        newCornerState = [currentCornerState[0], True, currentCornerState[2], currentCornerState[3]]
-                    elif nextPosition == (1, self.top):
                         newCornerState = [currentCornerState[0], currentCornerState[1], True, currentCornerState[3]]
-                    elif nextPosition == (1, 1):
+                    elif nextPosition == (self.right, self.top):
                         newCornerState = [currentCornerState[0], currentCornerState[1], currentCornerState[2], True]
+                    elif nextPosition == (1, self.top):
+                        newCornerState = [currentCornerState[0], True, currentCornerState[2], currentCornerState[3]]
+                    elif nextPosition == (1, 1):
+                        newCornerState = [True, currentCornerState[1], currentCornerState[2], currentCornerState[3]]
                     successor = ((nextPosition, newCornerState), action, 1)
                 # If the next position is not a corner, the state of the corners doesn't change
                 else:
