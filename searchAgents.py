@@ -399,6 +399,13 @@ class CornersProblem(search.SearchProblem):
             if self.walls[x][y]: return 999999
         return len(actions)
 
+def getManhattenDisCorners(corner,x1, y1):
+    # corner = (x,y)
+    # manhattan: abs(x1-x2)+abs(y1-y2)
+    x2 = corner[0]
+    y2 = corner[1]
+    distance = abs(x1-x2)+abs(y1-y2)
+    return distance
 
 def cornersHeuristic(state, problem):
     """
@@ -417,7 +424,34 @@ def cornersHeuristic(state, problem):
     walls = problem.walls # These are the walls of the maze, as a Grid (game.py)
 
     "*** YOUR CODE HERE ***"
-    return 0 # Default to trivial solution
+
+    # manhattan: abs(x1-x2)+abs(y1-y2)
+    pac_position = state[0]
+    x1 = pac_position[0]
+    y1 = pac_position[1]
+    # x2 and y2 are the coordinates of the corners
+    corner0 = getManhattenDisCorners(corners[0], x1, y1)
+    corner1 = getManhattenDisCorners(corners[1], x1, y1)
+    corner2 = getManhattenDisCorners(corners[2], x1, y1)
+    corner3 = getManhattenDisCorners(corners[3], x1, y1)
+
+    # all corners are described in a list. This list is at the second position of a state.
+    # if a corner is visited, it's manhattan distance has to be zero. In a goal state,
+    # all corners are visited and all distances are zero.
+
+    # At the beginning: [False, False, False, False], [a, b, c, d] with no zeros
+    # At the end: [True, True, True, True], [0,0,0,0]
+    corners_manhattan_dis = [corner0, corner1, corner2, corner3]
+    # there are only 4 corners => i can only get from 0 up to 3
+
+    for i in range(0,4):
+        # state: ((x,y), cornerlist = [a, b, c, d])
+        currentCorner = state[1][i]
+        if currentCorner == True:
+            corners_manhattan_dis[i] = 0
+
+    return max(corners_manhattan_dis)
+
 
 class AStarCornersAgent(SearchAgent):
     "A SearchAgent for FoodSearchProblem using A* and your foodHeuristic"
