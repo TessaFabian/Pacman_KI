@@ -410,15 +410,23 @@ def getManhattenDisCorners(corner,x1, y1):
 def cornersHeuristic(state, problem):
     """
     A heuristic for the CornersProblem that you defined.
+    I chose the Chebyshev distance as heuristic for the CornersProblem.
+    This distance is defined as the maximum sum of the absolute difference between
+    two coordinates: dis = max(abs(x1-x2) +  abs(y1-y2)). It looks quite similar
+    to the manhattan distance. That's why i chose "getManhattanDisCorners(...)" as
+    a suitable name for the method above. The Chebyshev part of the heuristic is used
+    at the return value of this method.
 
-      state:   The current search state
-               (a data structure you chose in your search problem)
+    Why is the Chebyshev distance admissible towards the CornersProblem?
+    We know from the lecture, that it's common to relax a problem to create an admissible
+    heuristic, because of the relaxation this heuristic never overestimates the true cost of
+    a solution.
+    Therefore, i decided to relax as follows: Pacman is able to move through walls in the maze and he can
+    move in a diagonal manner - just like a queen in chess.
+    Therefore, every move between two points gets him one step closer to his goal because he is able to choose a direct move towards
+    the goal. So, pacman will reduce his distance to his goal by 1 at each step and this is why the estimated cost
+    won't never get higher than the true path cost.
 
-      problem: The CornersProblem instance for this layout.
-
-    This function should always return a number that is a lower bound on the
-    shortest path from the state to a goal of the problem; i.e.  it should be
-    admissible (as well as consistent).
     """
     corners = problem.corners # These are the corner coordinates
     walls = problem.walls # These are the walls of the maze, as a Grid (game.py)
@@ -449,7 +457,9 @@ def cornersHeuristic(state, problem):
         currentCorner = state[1][i]
         if currentCorner == True:
             corners_manhattan_dis[i] = 0
-
+    """
+    The max(corners_manhattan_dis) is the Chebyshev part of the used heuristic
+    """
     return max(corners_manhattan_dis)
 
 
