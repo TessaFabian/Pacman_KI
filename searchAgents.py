@@ -410,14 +410,14 @@ def getManhattenDisCorners(corner,x1, y1):
 def cornersHeuristic(state, problem):
     """
     A heuristic for the CornersProblem that you defined.
-    I chose the Chebyshev distance as heuristic for the CornersProblem.
+    I chose the Czebyszew distance as heuristic for the CornersProblem.
     This distance is defined as the maximum sum of the absolute difference between
     two coordinates: dis = max(abs(x1-x2) +  abs(y1-y2)). It looks quite similar
     to the manhattan distance. That's why i chose "getManhattanDisCorners(...)" as
-    a suitable name for the method above. The Chebyshev part of the heuristic is used
+    a suitable name for the method above. The Czebyszew part of the heuristic is used
     at the return value of this method.
 
-    Why is the Chebyshev distance admissible towards the CornersProblem?
+    Why is the Czebyszew distance admissible towards the CornersProblem?
     We know from the lecture, that it's common to relax a problem to create an admissible
     heuristic, because of the relaxation this heuristic never overestimates the true cost of
     a solution.
@@ -458,7 +458,7 @@ def cornersHeuristic(state, problem):
         if currentCorner == True:
             corners_manhattan_dis[i] = 0
     """
-    The max(corners_manhattan_dis) is the Chebyshev part of the used heuristic
+    The max(corners_manhattan_dis) is the Czebyszew part of the used heuristic
     """
     return max(corners_manhattan_dis)
 
