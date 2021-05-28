@@ -74,6 +74,17 @@ def tinyMazeSearch(problem):
 
 def depthFirstSearch(problem):
     """
+    openSpace:
+    Path found with total cost of 298 in 0.0 seconds
+    Search nodes expanded: 576
+    Pacman emerges victorious! Score: 212
+    Average Score: 212.0
+    Scores:        212.0
+    Win Rate:      1/1 (1.00)
+    Record:        Win
+    """
+
+    """
     Search the deepest nodes in the search tree first.
 
     Your search algorithm needs to return a list of actions that reaches the
@@ -110,6 +121,17 @@ def depthFirstSearch(problem):
 
 
 def breadthFirstSearch(problem):
+    """
+    openSpace:
+    Path found with total cost of 54 in 0.0 seconds
+    Search nodes expanded: 682
+    Pacman emerges victorious! Score: 456
+    Average Score: 456.0
+    Scores:        456.0
+    Win Rate:      1/1 (1.00)
+    Record:        Win
+    """
+
     # Because of BFS, we need a queue as fringe
     fringe = util.Queue()
     # (5,5)
@@ -132,6 +154,18 @@ def breadthFirstSearch(problem):
                 fringe.push((s[0], newPath))
 
 def uniformCostSearch(problem):
+    """
+    openMaze
+    Path found with total cost of 54 in 0.1 seconds
+    Search nodes expanded: 682
+    Pacman emerges victorious! Score: 456
+    Average Score: 456.0
+    Scores:        456.0
+    Win Rate:      1/1 (1.00)
+    Record:        Win
+    """
+
+
     # Because of UCS, we need a priority queue as fringe
     fringe = util.PriorityQueue()
     # (5,5)
@@ -164,6 +198,31 @@ def nullHeuristic(state, problem=None):
     return 0
 
 def aStarSearch(problem, heuristic=nullHeuristic):
+    """
+    bigMaze:
+    Path found with total cost of 210 in 0.1 seconds
+    Search nodes expanded: 549
+    Pacman emerges victorious! Score: 300
+    Average Score: 300.0
+    Scores:        300.0
+    Win Rate:      1/1 (1.00)
+    Record:        Win
+
+    openMaze:
+    Path found with total cost of 54 in 0.2 seconds
+    Search nodes expanded: 535
+    Pacman emerges victorious! Score: 456
+    Average Score: 456.0
+    Scores:        456.0
+    Win Rate:      1/1 (1.00)
+    Record:        Win
+
+    A* expands the fewest nodes on openMaze (535). BFS and DFS expand the most nodes (682) on openMaze.
+    DFS expands 576 nodes on openMaze with a total cost of 298 and a score of 212.
+
+    A*, UCS, BFS and DFS have the best score of 54 on openMaze. 
+    """
+
     """Search the node that has the lowest combined cost and heuristic first."""
     # we need a priority queue as fringe, because A* is quite the same as UCS, beside
     # that we use this heuristics in A*:
