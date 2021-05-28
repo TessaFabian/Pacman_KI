@@ -526,6 +526,7 @@ class AStarFoodSearchAgent(SearchAgent):
         self.searchType = FoodSearchProblem
 
 def foodHeuristic(state, problem):
+    # Aufgabe 7
     """
     Your heuristic for the FoodSearchProblem goes here.
 
