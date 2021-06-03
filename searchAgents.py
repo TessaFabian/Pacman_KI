@@ -530,7 +530,18 @@ def foodHeuristic(state, problem):
     """
     Your heuristic for the FoodSearchProblem goes here.
 
+    This problem is quite similar to the problem from question 5 and the suitable
+    heuristic from question 6. Beside the fact, that in question 7 Pacman has to eat
+    all the dots.
+    So i reuse the approach from my solution of question 6. Nevertheless, Pacman has to eat
+    more than 4 dots as in question 6. As a conclusion, my food heuristic is the maximum maze distance
+    between any two points, because at any point, there could be a dot.
 
+    Why is the maximum maze distance consistent here?
+    At any point in the maze, there could be a dot. Therefore, moving between two points is rated with a cost of 1
+    ( = one step closer to eat all dots). If Pacman moves between two points, he could possibly eat one dot and he gets
+    one step closer to his goal - eating all dots in the maze.
+    Because of the consistency, the maximum maze distance is admissible, too.
     """
     position, foodGrid = state
     foodPositions = foodGrid.asList()
