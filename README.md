@@ -9,11 +9,5 @@ Praxisprojekt für die Lehrveranstaltung "Introduction to Artifical Intelligence
 4. A*-Suche
 5. Finding all the corners
 6. Corners problem: Heuristics
+7. Eating all the dots
 
-## To Do Stand 28.05.21
---> Branch Aufgabe7 <br>
-7. Eating all the dots <br>
-
-## Weitere Punkte
-- Code formatieren
-- Ergebnisse im Wiki festhalten
