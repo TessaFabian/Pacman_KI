@@ -413,7 +413,7 @@ def cornersHeuristic(state, problem):
     I chose the Czebyszew distance as heuristic for the CornersProblem.
     This distance is defined as the maximum sum of the absolute difference between
     two coordinates: dis = max(abs(x1-x2) +  abs(y1-y2)). It looks quite similar
-    to the manhattan distance. That's why i chose "getManhattanDisCorners(...)" as
+    to the manhattan distance (= abs(x1-x2) +  abs(y1-y2)) . That's why i chose "getManhattanDisCorners(...)" as
     a suitable name for the method above. The Czebyszew part of the heuristic is used
     at the return value of this method.
 
@@ -423,9 +423,10 @@ def cornersHeuristic(state, problem):
     a solution.
     Therefore, i decided to relax as follows: Pacman is able to move through walls in the maze and he can
     move in a diagonal manner - just like a queen in chess.
-    Therefore, every move between two points gets him one step closer to his goal because he is able to choose a direct move towards
+    Therefore, every move between two points gets him one step closer to his goal ( = visiting all the corners) because he is able to choose a direct move towards
     the goal. So, pacman will reduce his distance to his goal by 1 at each step and this is why the estimated cost
-    won't never get higher than the true path cost.
+    won't never get higher than the true path cost. Therefore, Czebyszew is also consistent, too. Moving between two points
+    is rated with a cost of 1 ( = one step closer to visit all corners). And moving between two points drops the heuristic by only 1.
 
     """
     corners = problem.corners # These are the corner coordinates
@@ -526,37 +527,23 @@ class AStarFoodSearchAgent(SearchAgent):
         self.searchType = FoodSearchProblem
 
 def foodHeuristic(state, problem):
-    # Aufgabe 7
     """
     Your heuristic for the FoodSearchProblem goes here.
 
-    This heuristic must be consistent to ensure correctness.  First, try to come
-    up with an admissible heuristic; almost all admissible heuristics will be
-    consistent as well.
 
-    If using A* ever finds a solution that is worse uniform cost search finds,
-    your heuristic is *not* consistent, and probably not admissible!  On the
-    other hand, inadmissible or inconsistent heuristics may find optimal
-    solutions, so be careful.
-
-    The state is a tuple ( pacmanPosition, foodGrid ) where foodGrid is a Grid
-    (see game.py) of either True or False. You can call foodGrid.asList() to get
-    a list of food coordinates instead.
-
-    If you want access to info like walls, capsules, etc., you can query the
-    problem.  For example, problem.walls gives you a Grid of where the walls
-    are.
-
-    If you want to *store* information to be reused in other calls to the
-    heuristic, there is a dictionary called problem.heuristicInfo that you can
-    use. For example, if you only want to count the walls once and store that
-    value, try: problem.heuristicInfo['wallCount'] = problem.walls.count()
-    Subsequent calls to this heuristic can access
-    problem.heuristicInfo['wallCount']
     """
     position, foodGrid = state
-    "*** YOUR CODE HERE ***"
-    return 0
+    foodPositions = foodGrid.asList()
+
+
+    mazeDistanceList = []
+    for foodPosition in foodPositions:
+        distance = mazeDistance(position, foodPosition, problem.startingGameState)
+        mazeDistanceList.append(distance)
+    if len(mazeDistanceList) == 0:
+        return 0
+    return max(mazeDistanceList)
+
 
 class ClosestDotSearchAgent(SearchAgent):
     "Search for all food using a sequence of searches"
